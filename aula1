@@ -1,0 +1,82 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+/* run this program using the console pauser or add your own getch, system("pause") or input loop */
+
+struct lista { 
+	int info;
+	struct lista *prox;
+};
+typedef struct lista Lista;
+
+Lista *inicializa(void);
+Lista *insere(Lista *, int);
+Lista *remover(Lista *, int);
+Lista *libera(Lista *, int);
+Lista *busca(Lista *, int);
+void imprime(Lista *);
+
+int main() {
+	
+	Lista *l;
+	l=inicializa();
+	l=insere(l, 10);
+	l=insere(l, 45);
+	imprime(l);
+	printf("%p\n", busca(l, 10));
+	printf("%p", remover(l, 10));
+	return 0;
+}
+
+Lista *inicializa(void){
+	return NULL;
+}
+
+Lista *insere(Lista *l, int n){
+	Lista *novo = (Lista*)malloc(sizeof(Lista));
+	novo->info=n;
+	novo->prox = l;
+	return novo;
+}
+
+void imprime(Lista *l){
+	Lista *q;
+	for(q=l; q!=NULL; q=q->prox)
+	printf("NO=%p INFO=%d PROX=%p\n", q, q->info, q->prox);
+}
+
+Lista *busca(Lista *l, int n){
+	Lista *p;
+	for(p=l; p!=NULL; p=p->prox){
+		if(p->info == n){
+			return p;
+		}
+		return NULL; //não achou nenhum elemento
+	}
+}
+
+Lista *remover(Lista *l, int n){
+	Lista *ant = NULL; //ponteiro para o elemento anterior
+	Lista *p = l; // ponteiro paa percorrer a lista 
+	// procura elemento na lisa, guardado anterior 
+	
+	while(p!=NULL && p->info!=n){
+		ant = p;
+		p = p->prox;
+	}
+	
+	if(p==NULL){
+		return l; // não achou: retorna lista original
+	}
+	// retira elemento original
+	
+	if(ant == NULL){
+		//retira elemento do icinio 
+		l=p->prox;
+	}else{
+		//retira elemtno do meio da lista
+		ant->prox = p->prox;
+	}
+	free(p);
+	return l;
+}
