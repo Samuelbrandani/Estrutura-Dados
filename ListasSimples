@@ -4,7 +4,7 @@
 
 struct no{
 	int dado;
-	struct elemento *prox;
+	struct no *prox;
 };
 typedef struct no No;
 
