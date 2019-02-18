@@ -1,96 +1,65 @@
 #include <stdio.h>
 #include <stdlib.h>
+// NESTE CÓDIDO SE ENCONTRA COMO CRIAR LISTAS E INSERIR ELEMENTOS NA LISTAS (INICIO E NO FINAL) E IMPRIMI-LOS
 
-/* run this program using the console pauser or add your own getch, system("pause") or input loop */
-
-struct lista { 
-	int info;
-	struct lista *prox;
+struct no{
+	int dado;
+	struct no *prox;
 };
-typedef struct lista Lista;
+typedef struct no No;
 
-Lista *inicializa(void);
-Lista *insere(Lista *, int);
-Lista *remover(Lista *, int);
-Lista *libera(Lista *);
-Lista *busca(Lista *, int);
-void imprime(Lista *);
-
-int main() {
-	
-	Lista *l;
-	l=inicializa();
-	l=insere(l, 10);
-	l=insere(l, 45);
-	
-//	libera(l);
-	imprime(l);
-//	
-//	printf("%p\n", busca(l, 10));
-//	printf("%p", remover(l, 10));
-	return 0;
+No* criar(){
+	No *novo = (No*)malloc(sizeof(No));
+	 return novo; 
 }
 
-Lista *inicializa(void){
-	return NULL;
+No* inserirNoInicio(No *Lista, int num){
+	No *novoNo = criar();
+	novoNo->dado = num;	
+	if(Lista == NULL){
+		Lista = novoNo;
+		novoNo->prox = NULL;
+	}else{
+		novoNo->prox=Lista;
+		Lista=novoNo;
+	}
 }
 
-Lista *insere(Lista *l, int n){
-	Lista *novo = (Lista*)malloc(sizeof(Lista));
-	novo->info=n;
-	novo->prox = l;
-	return novo;
-}
-
-void imprime(Lista* lista){
-	Lista *aux = lista;
+void imprimir(No* Lista){
+	No *aux = Lista;
 	while(aux != NULL){
-		printf("%d ", aux->info);
+		printf("%d ", aux->dado);
 		aux = aux->prox;
 	}
 }
 
-Lista *busca(Lista *l, int n){
-	Lista *p;
-	for(p=l; p!=NULL; p=p->prox){
-		if(p->info == n){
-			return p;
+No* InserirNoFinalDaLista(No *Lista, int num){
+	No *no = criar();
+	no->dado = num;
+
+		if(Lista == NULL){
+			no->prox=NULL;
+			Lista = no;
+		}else{
+			No *aux = Lista;
+			while(aux->prox!=NULL){
+				aux = aux->prox;
+			}
+			no->prox=NULL;
+			aux->prox = no;
 		}
-		return NULL; //não achou nenhum elemento
-	}
+
+		return Lista;
+
 }
 
-Lista *remover(Lista *l, int n){
-	Lista *ant = NULL; //ponteiro para o elemento anterior
-	Lista *p = l; // ponteiro paa percorrer a lista 
-	// procura elemento na lisa, guardado anterior 
-	
-	while(p!=NULL && p->info!=n){
-		ant = p;
-		p = p->prox;
+int main() {
+	int i;
+	No *Lista = NULL;
+	for(i=10;i>1;i--){
+		Lista = inserirNoInicio(Lista, i);
 	}
-	
-	if(p==NULL){
-		return l; // não achou: retorna lista original
-	}
-	// retira elemento original
-	
-	if(ant == NULL){
-		//retira elemento do icinio 
-		l=p->prox;
-	}else{
-		//retira elemtno do meio da lista
-		ant->prox = p->prox;
-	}
-	free(p);
-	return l;
-}
-
-Lista *libera(Lista *l){
-	Lista* p = l; 
-	while(p != NULL){
-		Lista * t = p->prox; // guarda como referencia para a proximo memoria
-		free(p); // Libera a memoria apontada por p
-		p = t; //faz p aponar paa o próximo
-	}
+	Lista = InserirNoFinalDaLista(Lista, 3121);
+	imprimir(Lista);
+	return 0;
 }
