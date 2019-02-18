@@ -1,0 +1,65 @@
+#include <stdio.h>
+#include <stdlib.h>
+// NESTE CÓDIDO SE ENCONTRA COMO CRIAR LISTAS E INSERIR ELEMENTOS NA LISTAS (INICIO E NO FINAL) E IMPRIMI-LOS
+
+struct no{
+	int dado;
+	struct elemento *prox;
+};
+typedef struct no No;
+
+No* criar(){
+	No *novo = (No*)malloc(sizeof(No));
+	 return novo; 
+}
+
+No* inserirNoInicio(No *Lista, int num){
+	No *novoNo = criar();
+	novoNo->dado = num;	
+	if(Lista == NULL){
+		Lista = novoNo;
+		novoNo->prox = NULL;
+	}else{
+		novoNo->prox=Lista;
+		Lista=novoNo;
+	}
+}
+
+void imprimir(No* Lista){
+	No *aux = Lista;
+	while(aux != NULL){
+		printf("%d ", aux->dado);
+		aux = aux->prox;
+	}
+}
+
+No* InserirNoFinalDaLista(No *Lista, int num){
+	No *no = criar();
+	no->dado = num;
+	
+		if(Lista == NULL){
+			no->prox=NULL;
+			Lista = no;
+		}else{
+			No *aux = Lista;
+			while(aux->prox!=NULL){
+				aux = aux->prox;
+			}
+			no->prox=NULL;
+			aux->prox = no;
+		}
+		
+		return Lista;
+	
+}
+
+int main() {
+	int i;
+	No *Lista = NULL;
+	for(i=10;i>1;i--){
+		Lista = inserirNoInicio(Lista, i);
+	}
+	Lista = InserirNoFinalDaLista(Lista, 3121);
+	imprimir(Lista);
+	return 0;
+}
