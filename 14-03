@@ -1,0 +1,137 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+struct lista {
+	int info;
+	struct lista* prox;
+};
+typedef struct lista Lista;
+
+Lista* cria(){
+	Lista* novo = (Lista*)malloc(sizeof(Lista));
+	return novo;
+}
+Lista* inicia(){
+	return NULL;
+}
+
+Lista* insereInicio(Lista* l, int n){
+	Lista* aux = cria();
+	aux->info = n;
+	
+	if(l == NULL){
+		aux->prox = NULL;
+		l = aux;
+	}else{
+		aux->prox = l;
+		l = aux;
+	}
+	return l;
+}
+
+void imprime(Lista* l){
+	Lista* aux = l;
+	while(aux!=NULL){
+		printf("%d  ", aux->info);
+		aux = aux->prox;
+	}
+}
+
+Lista* retira(Lista* l, int n){
+	Lista* aux = l;
+	if(l == NULL) return l;
+	else{
+		Lista* ant = inicia();
+		while(aux != NULL){
+			if(aux->info == n){
+				aux=aux->prox;
+			}else{
+				ant = aux->prox;
+				free(aux);
+				aux = ant;
+			}
+		}
+	return l;
+	}
+	
+}
+
+//7. Considerando as seguintes declarações de uma lista encadeada
+//struct lista {
+//int info;
+//struct lista* prox;
+//};
+//typedef struct lista Lista;
+//implemente uma função que receba como parâmetro uma lista encadeada e um valor inteiro n, e divida a lista em
+//duas, de tal forma que a segunda lista comece no primeiro nó logo após a primeira ocorrência de n na lista
+//original. A figura a seguir ilustra essa separação:
+//Essa função deve obedecer o protótipo:
+//Lista* separa (Lista* l, int n);
+//onde o parâmetro l representa a lista que deve ser dividida e n o valor do nó que deve ser usado como ponto de
+//quebra da lista. A função retorna um ponteiro para a segunda subdivisão da lista original, enquanto l vai
+//continuar apontando para o primeiro elemento da primeira subdivisão da lista.
+
+Lista* separa (Lista* l, int n){
+	Lista* aux = l;
+	Lista* novo = cria();
+	if(l == NULL) return l;
+	else{
+		while(aux != NULL && aux->info != n){
+			novo = aux->prox;
+			aux = aux->prox;
+		}
+		if(aux ==  NULL){
+			novo = aux->prox;
+		}
+		
+	}
+	return novo;
+}
+
+//8. Considerando as seguintes declarações de uma lista encadeada
+//struct lista {
+//float info;
+//struct lista* prox;
+//};
+//typedef struct lista Lista;
+//implemente uma função que construa uma nova lista a partir do intercalamento dos nós de outras duas listas. Essa
+//função deve receber como parâmetro as duas listas a serem intercaladas e retornar a lista resultante, conforme
+//ilustrado a seguir:
+//Essa função deve obedecer o protótipo:
+//Lista* inverte (Lista* l);
+Lista* inverte (Lista* a, Lista* b){
+	Lista* aux;
+	Lista* novo = inicia();
+	while(a!=NULL && b!=NULL){
+		novo = a->prox;
+		a = b->prox;
+		b = a->prox;
+	}
+	return novo;
+}
+
+
+
+int main(int argc, char *argv[]) {
+	Lista* l = inicia();
+	l = insereInicio(l, 10);
+	l = insereInicio(l, 20);
+	l = insereInicio(l, 30);
+	l = insereInicio(l, 40);
+	l = retira(l, 40);
+//	l = separa(l, 10);
+//	imprime(l);
+	
+	Lista* a = inicia();
+	Lista* b = inicia();
+	
+	a = insereInicio(a, 10);
+	a = insereInicio(a, 11);
+	a = insereInicio(a, 12);
+	b = insereInicio(b, 13);
+	b = insereInicio(b, 14);
+	b = insereInicio(b, 15);	
+	imprime(inverte(a, b));
+	
+	return 0;
+}
