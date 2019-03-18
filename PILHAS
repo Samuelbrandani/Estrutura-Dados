@@ -1,0 +1,75 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+struct no {
+	float info;
+	struct no* prox;
+};
+typedef struct no No;
+
+struct pilha { //tem o enderço do topo da lista
+	No* prim;
+};
+typedef struct pilha Pilha;
+
+Pilha* cria(void){
+	Pilha* p = (Pilha*)malloc(sizeof(Pilha));
+	p->prim = NULL;
+	return p;
+}
+
+/*função auxiliar: insere início*/
+No* ins_ini(No* l, float n){
+	No* p = (Pilha*)malloc(sizeof(Pilha));
+	p->info = n;
+	p->prox = l;
+	return p;
+}
+
+void push(Pilha* p, float n){
+	p->prim = ins_ini(p->prim, n);
+}
+
+/*função auxiliar: retira do inicio*/
+No* ret_ini(No* l){
+	No* p = l->prox;
+	free(l);
+	return p;
+}
+float pop(Pilha* p){
+	float v;
+	if(vazia(p)){
+		printf("pilha vazia");
+		exit(1); // sai do programa 
+	}
+	v=p->prim->info;
+	p->prim = ret_ini(p->prim);
+	return v;
+}
+
+void libera(Pilha* p){
+	No* q = p->prim;
+	while(p){
+		No* t = q->prox;
+		free(q);
+		q = t;
+	}
+	free(p);
+}
+
+void imprime(Pilha* p){
+	No *q;
+	for(q=p->prim; q!=NULL; q=q->prox);
+	printf("%f ", q->info);
+	
+}
+
+int main() {
+	Pilha* p = cria();
+	push(p, 1.0);
+	push(p, 2.0);
+	push(p, 3.0);
+	imprime(p);
+
+	return 0;
+}
