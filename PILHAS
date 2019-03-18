@@ -64,6 +64,10 @@ void imprime(Pilha* p){
 	
 }
 
+int vazia(Pilha* p){
+	return (p->prim == NULL);
+}
+
 int main() {
 	Pilha* p = cria();
 	push(p, 1.0);
@@ -73,3 +77,8 @@ int main() {
 
 	return 0;
 }
+
+
+
+
+
