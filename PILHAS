@@ -59,7 +59,7 @@ void libera(Pilha* p){
 
 void imprime(Pilha* p){
 	No *q;
-	for(q=p->prim; q!=NULL; q=q->prox);
+	for(q=p->prim; q!=NULL; q=q->prox)
 	printf("%f ", q->info);
 	
 }
@@ -77,8 +77,3 @@ int main() {
 
 	return 0;
 }
-
-
-
-
-
