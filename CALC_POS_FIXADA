@@ -1,0 +1,150 @@
+#include<stdio.h>
+#include<stdlib.h>
+#include<string.h>
+#include "pilhas2.h"
+
+struct calc{
+	char f[21];
+	Pilha* p;
+};
+typedef struct calc Calc;
+
+Calc* cria_calc(char* f);
+void operando(Calc* c, float v);
+void operador(Calc* c, char op);
+void libera_calc (Calc* c);
+
+int main(){
+	char c;
+	float v;
+	Calc* calc;
+	
+	calc = cria_calc("%.2f\n");
+	do{
+		scanf("%c",&c);
+		if(c=='+' || c=='-' || c=='*' || c=='/'){
+			operador(calc, c);
+		}else{
+			ungetc(c,stdin);
+			if(scanf("%f",&v)==1)
+				operando(calc,v);
+		}
+	}while(c!='q');
+	libera_calc(calc);
+	return 0;
+	
+}
+
+Calc* cria_calc(char* f){
+	Calc* c = (Calc*)malloc(sizeof(Calc));
+	strcpy(c->f,f);
+	c->p = cria();
+	return c;	
+}
+
+void operando(Calc* c, float v){
+	
+push(c->p,v);
+printf(c->f,v);	
+	
+}
+
+void operador(Calc* c, char op){
+	
+	float v1,v2,v;
+	if(vazia(c->p))
+		v2=0.0;
+	else
+		v2=pop(c->p);
+	if(vazia(c->p))
+		v1=0.0;
+	else
+		v1=pop(c->p);
+	
+	switch(op){
+		case '+': v1+v2;break;
+		case '-': v1-v2;break;
+		case '*': v1*v2;break;
+		case '/': v1/v2;break;
+	}
+	push(c->p,v);
+	printf(c->f,v);
+	
+}
+
+void libera_calc (Calc* c){
+	libera(c->p);
+	free(c);
+}
+
+
+/************ pilha.h /************/
+#include <stdio.h>
+#include <stdlib.h>
+
+struct no {
+	float info;
+	struct no* prox;
+};
+typedef struct no No;
+
+struct pilha { //tem o enderço do topo da lista
+	No* prim;
+};
+typedef struct pilha Pilha;
+
+Pilha* cria(void){
+	Pilha* p = (Pilha*)malloc(sizeof(Pilha));
+	p->prim = NULL;
+	return p;
+}
+
+/*função auxiliar: insere início*/
+No* ins_ini(No* l, float n){
+	No* p = (Pilha*)malloc(sizeof(Pilha));
+	p->info = n;
+	p->prox = l;
+	return p;
+}
+
+void push(Pilha* p, float n){
+	p->prim = ins_ini(p->prim, n);
+}
+
+/*função auxiliar: retira do inicio*/
+No* ret_ini(No* l){
+	No* p = l->prox;
+	free(l);
+	return p;
+}
+float pop(Pilha* p){
+	float v;
+	if(vazia(p)){
+		printf("pilha vazia");
+		exit(1); // sai do programa 
+	}
+	v=p->prim->info;
+	p->prim = ret_ini(p->prim);
+	return v;
+}
+
+void libera(Pilha* p){
+	No* q = p->prim;
+	while(p){
+		No* t = q->prox;
+		free(q);
+		q = t;
+	}
+	free(p);
+}
+
+void imprime(Pilha* p){
+	No *q;
+	for(q=p->prim; q!=NULL; q=q->prox)
+	printf("%f ", q->info);
+	
+}
+
+int vazia(Pilha* p){
+	return (p->prim == NULL);
+}
