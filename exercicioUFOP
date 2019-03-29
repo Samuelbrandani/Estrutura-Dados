@@ -1,0 +1,97 @@
+#include "pilha.h"
+/* 
+Escreva uma função para determinar se uma cadeia de caracteres (string) é da forma:
+x C y
+onde x e y são cadeias de caracteres compostas por letras ‘A’ e/ou ‘B’, e y é o inverso
+de x. Isto é, se x = “ABABBA”, y deve equivaler a “ABBABA”. Em cada ponto, você
+só poderá ler o próximo caractere da cadeia (é mandatório o uso de pilha). 
+
+ */
+
+
+
+Pilha* aoContrarioDeP(Pilha* p){
+	Pilha* aoContrarioDeP = cria();
+	Pilha* aux = p;
+	while(aux != NULL){
+		aoContrarioDeP = aux;
+		printf(" %c", aux->prim->x);
+//		aux = aux->prim->prox;
+		pop(aux);
+	}
+	return aoContrarioDeP;
+}
+
+int main(int argc, char *argv[]) {
+	Pilha* p = cria();
+	Pilha* p2 = cria();
+	push(p, 'A');
+	push(p, 'B');
+	push(p, 'A');
+	push(p, 'B');
+	imprime(p);
+	p2 = aoContrarioDeP(p);
+//	imprime(2p);
+	return 0;
+}
+
+:::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+#include <stdio.h>
+#include <stdlib.h>
+
+
+struct no {
+	char x;
+	struct no* prox;
+};
+typedef struct no No;
+
+struct p {
+	No* prim;
+}; 
+typedef struct p Pilha;
+
+int vazia(Pilha* p){
+	return (p->prim == NULL);
+}
+
+Pilha* cria(){
+	Pilha* novo = (Pilha*)malloc(sizeof(Pilha));
+	novo->prim = NULL;
+	return novo;
+}
+
+No* ins_ini(No* l, char n){
+	No* p = (Pilha*)malloc(sizeof(Pilha));
+	p->x = n;
+	p->prox = l;
+	return p;
+}
+
+void push(Pilha* p, float n){
+	p->prim = ins_ini(p->prim, n);
+}
+
+No* ret_ini(No* l){
+	No* p = l->prox;
+	free(l);
+	return p;
+}
+char pop(Pilha* p){
+	char v;
+	if(vazia(p)){
+		printf("pilha vazia");
+		exit(1); // sai do programa 
+	}
+	v = p->prim->x;
+	p->prim = ret_ini(p->prim);
+	return v;
+}
+void imprime(Pilha* p){
+	No *q;
+	for(q=p->prim; q!=NULL; q=q->prox){	
+		printf("%c ", q->x);
+	}
+	
+}
