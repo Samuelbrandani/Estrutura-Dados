@@ -1,79 +1,129 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-struct no {
-	float info;
-	struct no* prox;
-};
-typedef struct no No;
-
-struct pilha { //tem o enderço do topo da lista
-	No* prim;
-};
-typedef struct pilha Pilha;
-
-Pilha* cria(void){
-	Pilha* p = (Pilha*)malloc(sizeof(Pilha));
-	p->prim = NULL;
-	return p;
+//NÓ DA LISTA PARA ARMAZENAR VALORES
+typedef struct no {
+    float info;
+    struct no *prox;
+}No;
+ 
+//ESTRUTURA DA PILHA
+typedef struct pilha {
+    No *prim;
+}Pilha;
+ 
+// PROTOTIPOS
+Pilha *cria(void);
+No *ins_ini (No *l, float v);
+No *ret_ini (No *l);
+void push (Pilha *p, float v);
+float pop (Pilha *p);
+int vazia (Pilha *p);
+void libera (Pilha *p);
+void imprime (Pilha *p);
+ 
+//INICIA A LISTA COMO SENDO VAZIA
+Pilha *cria(void) {
+    Pilha *p = (Pilha*)malloc(sizeof(Pilha));
+    p->prim = NULL;
+    return p;
+}
+ 
+//FUNÇÃO AUXILIAR: INSERE NO INICIO
+No *ins_ini (No *l, float v){
+    No *p = (No*)malloc(sizeof(No));
+    p->info = v;
+    p->prox = l;
+    return p;
+}
+ 
+//FUNÇÃO AUXILIAR: RETIRA DO INÍCIO
+No *ret_ini (No *l){
+    No *p = l->prox;
+    free(l);
+    return p;
+}
+ 
+//FUNÇÃO COLOCA NA PILHA
+void push (Pilha *p, float v){
+    p->prim = ins_ini(p->prim, v);
+}
+ 
+//FUNÇÃO RETIRA DA LISTA
+float pop (Pilha *p){
+    float v;
+    if (vazia(p)) {
+        printf ("PILHA VAZIA!\n");
+        exit (1);
+    }
+    v = p->prim->info;
+    p->prim = ret_ini(p->prim);
+    return v;
+}
+ 
+//A PILHA ESTARÁ VAZIA SE A LISTA ESTIVER VAZIA
+int vazia (Pilha *p){
+    return (p->prim == NULL);
+}
+ 
+//LIBERA TODOS OS ELEMENTOS DA LISTA E DEPOIS LIBERA A PILHA
+void libera (Pilha *p) {
+    No *q = p->prim;
+    while (q!=NULL) {
+        No *t = q->prox;
+        free(q);
+        q = t;
+    }
+    free(p);
+}
+ 
+//IMPRIME A PILHA
+void imprime (Pilha *p){
+    No *q;
+    for (q=p->prim; q!=NULL; q=q->prox){
+        printf ("%.2f\n",q->info);
+    }
 }
 
-/*função auxiliar: insere início*/
-No* ins_ini(No* l, float n){
-	No* p = (Pilha*)malloc(sizeof(Pilha));
-	p->info = n;
-	p->prox = l;
-	return p;
-}
+?????????????????????????????????????????????????????????????
 
-void push(Pilha* p, float n){
-	p->prim = ins_ini(p->prim, n);
+#include <stdio.h>
+#include <stdlib.h>
+#include "pilhas.h"
+ 
+Pilha *copia(Pilha *p) {
+    Pilha *aux = cria();
+    Pilha *p2 = cria();
+    float v;
+    while (p->prim) {
+        v = pop(p);
+        push (aux, v);
+        push (p2, v);
+    }
+    while (aux->prim) push (p, pop(aux));
+    while (p2->prim) push (aux, pop(p2));
+ 
+    return aux;
+ 
 }
-
-/*função auxiliar: retira do inicio*/
-No* ret_ini(No* l){
-	No* p = l->prox;
-	free(l);
-	return p;
-}
-float pop(Pilha* p){
-	float v;
-	if(vazia(p)){
-		printf("pilha vazia");
-		exit(1); // sai do programa 
-	}
-	v=p->prim->info;
-	p->prim = ret_ini(p->prim);
-	return v;
-}
-
-void libera(Pilha* p){
-	No* q = p->prim;
-	while(p){
-		No* t = q->prox;
-		free(q);
-		q = t;
-	}
-	free(p);
-}
-
-void imprime(Pilha* p){
-	No *q;
-	for(q=p->prim; q!=NULL; q=q->prox)
-	printf("%f ", q->info);
-	
-}
-
-int vazia(Pilha* p){
-	return (p->prim == NULL);
-}
-
+ 
 int main() {
-	Pilha* p = cria();
-	push(p, 1.0);
-	push(p, 2.0);
-	push(p, 3.0);
-	imprime(p);
-
-	return 0;
+    Pilha *p1 = cria();
+ 
+    push (p1, 2);
+    push (p1, 4);
+    push (p1, 1);
+    push (p1, 3);
+    push (p1, 7);
+ 
+    imprime(p1);
+    Pilha *p2 = cria();
+    puts ("\n\n");
+ 
+    p2 = copia(p1);
+    imprime(p2);
+ 
+ 
+    system ("pause>nul");
+    return 0;
 }
