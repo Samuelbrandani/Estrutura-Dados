@@ -33,6 +33,43 @@ void imprime(Arv* a){
 }
 
 
+//função que busca e retorna se o valor está na arvore 
+// TRABALHANDO AQUI 23/04 18:50 - UNIVAS - LAB2
+int buscaValor(Arv* r, char valor){
+	int retorno = 0;
+	if(r->esq == NULL && r->dir == NULL){
+		return retorno;
+	}else{
+		if(valor == r->info){
+			retorno = 1;
+			return retorno;
+		}else if(valor < r->info){
+			return busca(r->esq, valor);
+		}else if(valor > r->info){
+			return busca(r->dir, valor);
+		}
+	}
+
+}
+
+
+
+//função que busca e retorna o valor desejado
+Arv* buscaRetorno(Arv* r, char valor){
+	if(r->esq == NULL && r->dir == NULL){
+		return NULL;
+	}else{
+		if(valor == r->info){
+			return r->info;
+		}else if(valor < r->info){
+			return busca(r->esq, valor);
+		}else if(valor > r->info){
+			return busca(r->dir, valor);
+		}
+		
+	}
+}
+
 int main() {
 	
 	Arv* a1 = cria('d', inicializa(), inicializa());
@@ -46,7 +83,7 @@ int main() {
 	Arv* a5 = cria('c', a3, a4);
 	
 	Arv* a = cria('a', a2, a5);
-	imprime(a);
-	
+//	imprime(a);
+	puts(buscaRetorno(a, 'a'));
 	return 0;
 }
