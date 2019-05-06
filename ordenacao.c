@@ -18,8 +18,12 @@ void bolha(int n, int*v){
 
 int main(int argc, char *argv[]) {
 	
-	int i v[8] = []; 
-	
+	int i, v[8] = {25,48,37,12,57,86,33,92}; 
+	bolha(8, v);
+	printf("vetor ordenado\n");
+	for(i=0;i<8;i++){
+		printf("%d ", v[i]);
+	}
 	
 	return 0;
 }
