@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#inclide <string.h>
-/* run this program using the console pauser or add your own getch, system("pause") or input loop */
+#include <string.h>
 
 void bolha(int n, int*v){
 	int i,j;
@@ -35,14 +34,21 @@ void bolha_recursiva(int n, int* v){
 
 int compara(int a, int b){
 	if(a>b) return 1;
-	
-	return 0;
+	else return 0;
 }
 
 int comparaChar(char* a, char* b){
 	if(strcmp(a,b)> 0) return 1;
-	
-	return 0;
+	else return 0;
+}
+
+int comparaGenerico(void* a, void*b){
+	int p1* = (int*)a;
+	int p2* = (int*)b;
+	int i1 = *p1;
+	int i2 = *p2;
+	if(i1 > i2 ) return 1;
+	else return 0;
 }
 
 int main(int argc, char *argv[]) {
