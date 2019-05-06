@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+/* run this program using the console pauser or add your own getch, system("pause") or input loop */
 
 void bolha(int n, int*v){
 	int i,j;
@@ -43,8 +44,8 @@ int comparaChar(char* a, char* b){
 }
 
 int comparaGenerico(void* a, void*b){
-	int p1* = (int*)a;
-	int p2* = (int*)b;
+	int *p1 = (int*)a;
+	int *p2 = (int*)b;
 	int i1 = *p1;
 	int i2 = *p2;
 	if(i1 > i2 ) return 1;
