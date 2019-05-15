@@ -41,14 +41,19 @@ int main(int argc, char *argv[]) {
 //	cadastro de aluno
 
 	//erro no cadastro
-	int i = 0;
+	int i, k;
 	Aluno* aluno[N];
 	inicializa(N, aluno);
-//	for(i = 0; i<N; i++){
+	
+	printf("Digite a quantidade de alunos: ");
+	scanf("%d", &k);
+	printf("\n");
+	for(i = 0; i < k; i++){
 		cadastraAluno(N, aluno, i);
-//	}
+		cadastraAluno(N, aluno, i);
+	}
 
-	imprimeTodosAluno(aluno);
+	imprimeTodosAluno(N, aluno);
 	
 }
 
@@ -66,15 +71,23 @@ Aluno* cadastraAluno(int n, Aluno** a, int i){
 	
 	if(a[i] == NULL){
 		a[i] = (Aluno*)malloc(sizeof(Aluno));
+		
+		printf("\n");
 		printf("Digite o nome: ");
 		scanf("%s", &a[i]->nome);
+		
 		printf("Digite a matricula: ");
 		scanf("%s", a[i]->mat);
+		
 		fflush(stdin);
 		printf("Digite a turma: ");
 		scanf("%c", &a[i]->turma);
+		
 		printf("Digite o email: ");
 		scanf("%s", &a[i]->email);
+		
+		printf("\n");
+
 	}
 	
 }
@@ -91,10 +104,12 @@ void imprime(int n, Aluno** a, int i){
 		exit(1);
 	}
 	if(a[i]!=NULL){
-		printf("Nome: %s", a[i]->nome);
-		printf("Matricula: %s", a[i]->mat);
-		printf("Turma: %c", a[i]->turma);
-		printf("E-mail: %s", a[i]->email);
+		printf("\n----Aluno {%d}----\n", i);
+		printf("Nome: %s\n", a[i]->nome);
+		printf("Matricula: %s\n", a[i]->mat);
+		printf("Turma: %c\n", a[i]->turma);
+		printf("E-mail: %s\n", a[i]->email);
+		printf("\n------------------\n", i);
 	}
 	
 }
