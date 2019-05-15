@@ -12,48 +12,32 @@ struct aluno {
 typedef struct aluno Aluno;
 
 
-void bolha_gen(int n, void* v, int tam, int (*cmp)(void*,void*));
-int compara_int(void*, void* b);
-int compara_reais(void*a, void*b);
+void bolha_gen(int, void*, int tam, int (*cmp)(void*,void*));
+int compara_int(void*, void*);
+int compara_reais(void*, void*);
 int compara_inteiro(const void*, const void*);
-int compara_aluno(void* a, void* b);
-int (*cmp) (void*, void*);
+int compara_aluno (void*, void*);
+int (*cmp)(void*,void*);
 void* acessa(void* v, int i, int tam);
-void* troca(void*a, void*b, int tam);
-Aluno* cadastraAluno();
+void troca(void*a, void*b, int tam);
+Aluno* cadastraAluno(int, Aluno**, int);
+void inicializa(int, Aluno**);
+void imprimeTodosAluno(int,Aluno**);
 
 
 int main(int argc, char *argv[]) {
-	
-//	int i, v[8] = {31,212,62,34,45,16,73,8231}; 
-//	printf("\nVetor original: ");
-//	for(i=0;i<N;i++){
-//		printf("%d ", v[i]);
-//	}
-//	bolha_gen(N, v, sizeof(int), compara_int);
-//	printf("\nVetor ordenado: ");
-//	for(i=0;i<N;i++){
-//		printf("%d ", v[i]);
-//	}
-//	printf("\n");
-//	system("pause");
 
-//	cadastro de aluno
-
-	//erro no cadastro
 	int i, k;
-	Aluno* aluno[N];
-	inicializa(N, aluno);
-	
 	printf("Digite a quantidade de alunos: ");
 	scanf("%d", &k);
 	printf("\n");
+	Aluno* alunos[k];
+	inicializa(k, alunos);
 	for(i = 0; i < k; i++){
-		cadastraAluno(N, aluno, i);
-		cadastraAluno(N, aluno, i);
+		cadastraAluno(k, alunos, i);
 	}
 
-	imprimeTodosAluno(N, aluno);
+	imprimeTodosAluno(k, alunos);
 	
 	int Root;
 	do{
@@ -61,12 +45,14 @@ int main(int argc, char *argv[]) {
 		printf(" \t (1): Nome");
 		printf(" \t (0): Sair");
 		
-		printf("\n--->");
+		printf("\n\t --->");
 		scanf("%d", &Root);
 		printf("\n\n");
+		
 		switch(Root){
 			case 1:
-				bolha_gen(k, aluno, sizeof(Aluno), compara_aluno);
+				bolha_gen(k, alunos, sizeof(Aluno), compara_aluno);
+				imprimeTodosAluno(k, alunos);
 			break;
 		}
 	}while(Root!=0);
@@ -108,7 +94,7 @@ Aluno* cadastraAluno(int n, Aluno** a, int i){
 	
 }
 
-void imprimeTodosAluno(int n,Aluno* a){
+void imprimeTodosAluno(int n, Aluno** a){
 	int i;
 	for(i=0;i<n;i++){
 		imprime(n,a,i);
@@ -120,30 +106,33 @@ void imprime(int n, Aluno** a, int i){
 		exit(1);
 	}
 	if(a[i]!=NULL){
-		printf("\n----Aluno {%d}----\n", i);
+		printf("\n---- Aluno {%d} ----\n", i+1);
 		printf("Nome: %s\n", a[i]->nome);
 		printf("Matricula: %s\n", a[i]->mat);
 		printf("Turma: %c\n", a[i]->turma);
 		printf("E-mail: %s\n", a[i]->email);
-		printf("\n------------------\n");
+		printf("\n--------------------\n");
 	}
-	
 }
 
-void bolha_gen(int n, void*v, int tam, int (*cmp) (void*, void*)){
-
-	int i,j;
-	for(i=n-1;i>0;i--){
+void bolha_gen (int n, void* v, int tam, int(*cmp)(void*,void*)){
+	int i, j;
+	for (i=n-1; i>0; i--) {
 		int fez_troca = 0;
-		for(j=0;j<i; j++){
-			void* p1 = acessa(v, j, tam);
-			void* p2 = acessa(v, j+1, tam);
-			if(cmp(p1,p2)){
+		for (j=0; j<i; j++) {
+			void* p1 = acessa(v,j,tam);
+			void* p2 = acessa(v,j+1,tam);
+			if (cmp(p1,p2)) {
+				printf("\t\t\t\tteste.....4");
 				troca(p1,p2,tam);
 				fez_troca = 1;
 			}
+			printf("\t\t\t\tteste.....5");
+			
+			
 		}
-		if(fez_troca == 0) return;
+		if (fez_troca == 0)
+		return;
 	}
 }
 
@@ -156,17 +145,17 @@ int compara_int(void* a, void* b){
 	else return 0;
 }
 
-void* acessa(void* v, int i, int tam){
-	char* t = (char*) v;
+void* acessa (void* v, int i, int tam){
+	char* t = (char*)v;
 	t += tam*i;
-	return (void*) t;
+	return (void*)t;
 }
 
-void* troca(void* a, void* b, int tam){
+void troca(void* a, void* b, int tam){
 	char* v1 = (char*) a;
 	char* v2 = (char*) b;
 	int i;
-	for(i=0;i<tam;i++){
+	for (i=0; i<tam; i++) {
 		char temp = v1[i];
 		v1[i] = v2[i];
 		v2[i] = temp;
@@ -181,12 +170,12 @@ int compara_reais(void* a, void* b){
 	if(f1 > f2) return 1;
 	else return 0;
 }
-int compara_aluno(void* a, void* b){
+
+int compara_aluno (void* a, void* b){
 	Aluno** p1 = (Aluno**) a;
 	Aluno** p2 = (Aluno**) b;
 	Aluno* i1 = *p1;
 	Aluno* i2 = *p2;
-	if(strcmp(i1->nome, i2->nome) > 0){
-		return 1;
-	}else return 0;
+	if (strcmp(i1->nome,i2->nome) > 0) return 1;
+	else return 0;
 }
