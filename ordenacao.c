@@ -55,6 +55,22 @@ int main(int argc, char *argv[]) {
 
 	imprimeTodosAluno(N, aluno);
 	
+	int Root;
+	do{
+		printf("\n\n------> Escolha o tipo de ordenacao <-----\n");
+		printf(" \t (1): Nome");
+		printf(" \t (0): Sair");
+		
+		printf("\n--->");
+		scanf("%d", &Root);
+		printf("\n\n");
+		switch(Root){
+			case 1:
+				bolha_gen(k, aluno, sizeof(Aluno), compara_aluno);
+			break;
+		}
+	}while(Root!=0);
+	
 }
 
 void inicializa(int n, Aluno** a){
@@ -109,12 +125,13 @@ void imprime(int n, Aluno** a, int i){
 		printf("Matricula: %s\n", a[i]->mat);
 		printf("Turma: %c\n", a[i]->turma);
 		printf("E-mail: %s\n", a[i]->email);
-		printf("\n------------------\n", i);
+		printf("\n------------------\n");
 	}
 	
 }
 
 void bolha_gen(int n, void*v, int tam, int (*cmp) (void*, void*)){
+
 	int i,j;
 	for(i=n-1;i>0;i--){
 		int fez_troca = 0;
