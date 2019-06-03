@@ -60,6 +60,20 @@ Arv* valorBusca(Arv* r, char k){
        return busca(r->dir, k);
 }
 
+//Implemente versões diferentes da função imprime, percorrendo a
+//árvore em ordem simétrica e em pós-ordem. Verifique o resultado da
+//aplicação das duas funções.
+void imprimeSae(Arv* a){
+	
+	if(!vazia(a)){
+		printf("%c", a->info);
+		imprime
+	}
+	
+}
+
+
+
 int main() {
 	
 	Arv* a1 = cria('d', inicializa(), inicializa());
@@ -68,9 +82,13 @@ int main() {
 	Arv* a4 = cria('f', inicializa(), inicializa());
 	Arv* a5 = cria('c', a3, a4);
 	Arv* a = cria('a', a2, a5);
-//	imprime(a);
-	puts("Digite o valor para buscar");
-	printf("the returns of the function 'valorBusca' is:  %c\n",valorBusca(a, 'a'));
-	printf("the returns of the function 'busca' is:  %d\n", busca(a, 'v'));
+	puts("\nImprime Normal");
+	imprime(a);
+	puts("\nImprime Sae");
+	imprimeSae(a);
+	
+//	puts("Digite o valor para buscar");
+//	printf("the returns of the function 'valorBusca' is:  %c\n",valorBusca(a, 'a'));
+//	printf("the returns of the function 'busca' is:  %d\n", busca(a, 'v'));
 	return 0;
 }
